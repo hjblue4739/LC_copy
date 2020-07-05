@@ -1,3 +1,15 @@
+## Binary Tree Traversal
+- (95) Unique Binary Search Trees II  
+    Binary tree inorder traversal with the time complexity of O(4^n), this is because the problem meets the Segner's recurrent relation:
+    C_0 = 1 and C_(n+1) is the sum of C_i*C_(n-i) where i is in the range of 0 to n.
+    
+- (105) Construc Binary Tree from Inorder 
+- (106) Construct Binary Tree from Inorder and Postorder Traversal  
+    Due to postorder, the traversal order is `left->right->root`, when we construct the tree with the value from list of postorder, we need to the follow the order of `root->right->left`.
+- (107) Binary Tree Level Order Traversal II   
+    BFS uses `deque` to pop the left element and add to the right.
+
+
 # Based on Solution
 ## Kth Problem
 - (378) Kth Smallest Element in a Sorted Matrix

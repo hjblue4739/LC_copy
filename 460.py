@@ -1,3 +1,52 @@
+from collections import defaultdict, OrderedDict
+
+class Node:
+    def __init__(self, value, count):
+        self.value = value
+        self.count = count
+
+
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}
+        self.nodes = defaultdict(OrderedDict)
+        self.minCount = None
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        node = self.cache[key]
+        del self.nodes[node.count][key]
+
+        if not self.nodes[node.count]:
+            del self.nodes[node.count]
+
+        node.count += 1
+        self.nodes[node.count][key] = node.value
+
+        if not self.nodes[self.minCount]:
+            self.minCount += 1
+
+        return node.value
+
+    def put(self, key: int, value: int) -> None:
+        if not self.capacity: return
+        node = Node(value, 1)
+        if key in self.cache:
+            self.cache[key].value = value
+            self.get(key)
+            return
+        self.cache[key] = Node(value, 1)
+        if len(self.cache) > self.capacity:
+            k, v = self.nodes[self.minCount].popitem(last=False)
+            del self.cache[k]
+
+        self.nodes[1][key] = value
+        self.minCount = 1
+
+
 from collections import defaultdict
 
 class ListNode:
