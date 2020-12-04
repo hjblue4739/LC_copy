@@ -18,17 +18,20 @@ class Solution:
         return self.sumOfLeftLeaves(root.left) + self.sumOfLeftLeaves(root.right)
 
 
+from collections import deque
 
-        # iterative
-        # result = 0
-        # if not root: return result
-        # stack = [(root, 0)]
-        # while stack:
-        #     node, num = stack.pop()
-        #     if num < 0 and node.left == None and node.right == None:
-        #         result += node.val
-        #     if node.left:
-        #         stack.append([node.left, -1])
-        #     if node.right:
-        #         stack.append([node.right, 1])
-        # return result
+
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if not root: return 0
+        q, result = deque([root]), 0
+        while q:
+            curr = q.popleft()
+            if curr.left:
+                if not curr.left.left and not curr.left.right:
+                    result += curr.left.val
+                q.append(curr.left)
+            if curr.right:
+                q.append(curr.right)
+
+        return result

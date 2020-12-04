@@ -1,18 +1,22 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        if n == 0: return 0
-        if n <= 1: return 1
+        count = n
+        roots = list(range(n))
 
-        def find(x):
-            while x != UF[x]:
-                UF[x] = UF[UF[x]]
-                x = UF[UF[x]]
-            return x
+        def find(node):
+            root = node
+            while roots[root] != root:
+                root = roots[root]
+            while node != root:
+                roots[node], node = root, roots[node]
+            return root
 
-        UF = [i for i in range(n)]
-        result = n
-        for x, y in edges:
-            if UF[find(x)] != UF[find(y)]:
-                result -= 1
-                UF[find(x)] = UF[find(y)]
-        return result
+        def union(x, y):
+            roots[x] = y
+
+        for edge in edges:
+            x, y = find(edge[0]), find(edge[1])
+            if x != y:
+                union(x, y)
+                count -= 1
+        return count

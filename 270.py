@@ -1,35 +1,15 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-
-    # Iterative
-    def closestValue(self, root, target):
-        """
-        :type root: TreeNode
-        :type target: float
-        :rtype: int
-        """
-        result = root.val
+    def closestValue(self, root: TreeNode, target: float) -> int:
+        prev = root.val
         while root:
-            result = min((root.val, result), key=lambda x: abs(target-x))
-            root = root.left if target < root.val else root.right
-        return result
-
-
-    # Recursive
-    def closestValue(self, root, target):
-        """
-        :type root: TreeNode
-        :type target: float
-        :rtype: int
-        """
-        child = root.left if root.val > target else root.right
-        if not child:
-            return root.val
-        child_val = self.closestValue(child, target)
-        return min((root.val, child_val), key=lambda x: abs(x - target))
+            if abs(prev-target) > abs(root.val-target):
+                prev = root.val
+            if target < root.val: root = root.left
+            else: root = root.right
+        return prev

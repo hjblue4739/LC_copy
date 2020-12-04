@@ -5,6 +5,13 @@
 #         self.left = None
 #         self.right = None
 
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root: return 0
+        if None in [root.left, root.right]:
+            return 1+max(self.minDepth(root.left), self.minDepth(root.right))
+        return 1 + min(self.minDepth(root.left), self.minDepth(root.right))
+
 from collections import deque
 
 class Solution:

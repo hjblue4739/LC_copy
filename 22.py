@@ -12,23 +12,16 @@ class Solution:
                 dp[i] += ['(' + x + ')' + y for x in dp[j] for y in dp[i-j-1]]
         return dp[n]
 
-    # def generateParenthesis(self, n):
-    #     """
-    #     :type n: int
-    #     :rtype: List[str]
-    #     """
-    #     if n < 1:
-    #         return []
-    #     result = []
-    #     self.dfs(n, n, '', result)
-    #     return result
-    #
-    # def dfs(self, left, right, s, result):
-    #     if right < left:
-    #         return
-    #     if not left and not right:
-    #         result.append(s)
-    #     if left:
-    #         self.dfs(left - 1, right, s + '(', result)
-    #     if right:
-    #         self.dfs(left, right - 1, s + ')', result)
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        result = []
+        self.search(n, n, '', result)
+        return result
+
+    def search(self, l, r, s, result):
+        if r < l: return
+        if not l and not r:
+            result.append(s)
+        if l > 0: self.search(l - 1, r, s + '(', result)
+        if r > 0: self.search(l, r - 1, s + ')', result)

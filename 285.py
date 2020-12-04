@@ -21,16 +21,14 @@ class Solution(object):
                 root = root.right
         return successor
 
-    def inorderSuccessor2(self, root, p):
-        """
-        :type root: TreeNode
-        :type p: TreeNode
-        :rtype: TreeNode
-        """
-        if not root: return None
 
-        if p.val >= root.val:
+
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        if root.val <= p.val:
             return self.inorderSuccessor(root.right, p)
         else:
             left = self.inorderSuccessor(root.left, p)
-            return root if not left else left
+            return left if left else root

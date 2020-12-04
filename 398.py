@@ -1,20 +1,14 @@
-import random
-
-
 class Solution:
-    def __init__(self, nums):
-        """
-        :type nums: List[int]
-        """
-        self.nums = nums
 
-    def pick(self, target):
-        """
-        :type target: int
-        :rtype: int
-        """
-        return random.choice([i for i in range(len(self.nums)) if self.nums[i] == target])
+    def __init__(self, nums: List[int]):
+        self.d = {}
+        for i, v in enumerate(nums):
+            self.d[v] = self.d.get(v, []) + [i]
 
-        # Your Solution object will be instantiated and called as such:
-        # obj = Solution(nums)
-        # param_1 = obj.pick(target)
+    def pick(self, target: int) -> int:
+        n = len(self.d[target])
+        return self.d[target][random.randint(0, n - 1)]
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.pick(target)

@@ -1,34 +1,26 @@
 class Solution:
-    def findSubstring(self, s, words):
-        """
-        :type s: str
-        :type words: List[str]
-        :rtype: List[int]
-        """
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
         if not s or not words or len(s) == 0 or len(words) == 0: return []
-        d = {}
-        for word in words:
-            d[word] = d.get(word, 0) + 1
+        m, n = len(words[0]), len(words)
         result = []
-        # same length of word in words
-        n, m = len(words), len(words[0])
-        for i in range(min(m, len(s) - m*n + 1)):
-            curr = {}
-            j = i
-            while i + m*n <= len(s):
-                word = s[j:j+m]
-                j += m
-                if word not in d:
-                    i = j
-                    curr.clear()
+        d = Counter(words)
+        for start in range(min(m, len(s) - n * m + 1)):
+            new_start = start
+            end = start
+            new_d = {}
+            while new_start < len(s) - n * m + 1:
+                w = s[end:end + m]
+                end += m
+                if w not in d:
+                    new_d = {}
+                    new_start = end
                 else:
-                    if word in curr:
-                        curr[word] += 1
-                    else:
-                        curr[word] = 1
-                    while curr[word] > d[word]:
-                        curr[s[i:i+m]] -= 1
-                        i += m
-                    if j - i == m*n:
-                        result.append(i)
+                    new_d[w] = new_d.get(w, 0) + 1
+                    while new_d[w] > d[w]:
+                        new_d[s[new_start:new_start + m]] -= 1
+                        new_start += m
+
+                    if new_start + n * m == end:
+                        result.append(new_start)
+
         return result

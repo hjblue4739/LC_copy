@@ -1,13 +1,7 @@
 class Solution:
-    def maxProfit(self, prices, fee):
-        """
-        :type prices: List[int]
-        :type fee: int
-        :rtype: int
-        """
-        if not prices or len(prices) == 0:
-            return 0
-        buy, sell = float('-inf'), 0
-        for i in range(len(prices)):
-            buy, sell = max(buy, sell-prices[i]), max(sell, buy+prices[i]-fee)
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        sell, buy = 0, float('-inf')
+        for price in prices:
+            sell = max(sell, buy + price - fee)
+            buy = max(buy, sell-price)
         return sell

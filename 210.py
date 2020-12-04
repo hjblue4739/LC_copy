@@ -29,30 +29,24 @@ class Solution:
         return True
 
 ## BFS
-# class Solution:
-#     def findOrder(self, numCourses, prerequisites):
-#         """
-#         :type numCourses: int
-#         :type prerequisites: List[List[int]]
-#         :rtype: List[int]
-#         """
-#         order = []
-#         dependency = defaultdict(set)
-#         indegree = {k: 0 for k in range(numCourses)}
-#         for edge in prerequisites:
-#             indegree[edge[0]] += 1
-#             dependency[edge[1]].add(edge[0])
-#
-#         queue = deque()
-#         for k, v in indegree.items():
-#             if v == 0:
-#                 queue.append(k)
-#
-#         while queue:
-#             node = queue.popleft()
-#             order.append(node)
-#             for course in dependency[node]:
-#                 indegree[course] -= 1
-#                 if indegree[course] == 0:
-#                     queue.append(course)
-#         return order if len(order) == numCourses else []
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        inDegree, tree = [0] * numCourses, defaultdict(set)
+        for p in prerequisites:
+            inDegree[p[0]] += 1
+            tree[p[1]].add(p[0])
+
+        queue = deque()
+        for i in range(numCourses):
+            if inDegree[i] == 0:
+                queue.append(i)
+
+        result = []
+        while queue:
+            n = queue.popleft()
+            result.append(n)
+            for child in tree[n]:
+                inDegree[child] -= 1
+                if inDegree[child] == 0:
+                    queue.append(child)
+        return result if len(result) == numCourses else []

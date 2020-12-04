@@ -1,22 +1,21 @@
-from collections import defaultdict, deque
-
+from collections import deque
 
 class Solution:
-    # BFS
     def alienOrder(self, words: List[str]) -> str:
-        counter, graph = {}, {}
+        children = {}
+        counter = {}
         for word in words:
             for c in word:
                 counter[c] = 0
-                graph[c] = set()
-        for i in range(1, len(words)):
-            prev, curr = words[i - 1], words[i]
-            l = min(len(prev), len(curr))
-            for j in range(l):
-                if prev[j] != curr[j]:
-                    if curr[j] not in graph[prev[j]]:
-                        graph[prev[j]].add(curr[j])
-                        counter[curr[j]] += 1
+                children[c] = set()
+        for w1, w2 in zip(words, words[1:]):
+            if len(w1) > len(w2) and w1[:len(w2)] == w2:
+                return ''
+            for i in range(min(len(w1), len(w2))):
+                if w1[i] != w2[i]:
+                    if w2[i] not in children[w1[i]]:
+                        counter[w2[i]] += 1
+                        children[w1[i]].add(w2[i])
                     break
         q = deque()
         for k, v in counter.items():
@@ -26,11 +25,12 @@ class Solution:
         while q:
             curr = q.popleft()
             result += curr
-            for child in graph[curr]:
-                counter[child] -= 1
-                if counter[child] == 0:
-                    q.append(child)
-        return result if len(result) == len(graph.keys()) else ''
+            if children[curr]:
+                for child in children[curr]:
+                    counter[child] -= 1
+                    if counter[child] == 0:
+                        q.append(child)
+        return result if len(result) == len(counter) else ''
 
         #     # DFS
         #     def alienOrder(self, words: List[str]) -> str:

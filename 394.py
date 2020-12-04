@@ -1,23 +1,18 @@
 class Solution:
-    def decodeString(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        stack = []
-        n = 0
+    def decodeString(self, s: str) -> str:
+        if not s: return ''
+        stack, num = [], 0
         for c in s:
             if c.isdigit():
-                n = n * 10 + int(c)
+                num = num * 10 + int(c)
             elif c == '[':
-                stack.append(n)
-                n = 0
+                stack.append(num)
+                num = 0
             elif c.isalpha():
                 stack.append(c)
             elif c == ']':
                 ss = self.popStack(stack)
-                for i in range(stack.pop()):
-                    stack.append(ss)
+                stack.append(ss * stack.pop())
         return self.popStack(stack)
 
     def popStack(self, stack):

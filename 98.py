@@ -16,15 +16,14 @@ class TreeNode:
 #         return self.isValid(root.left, lower, root.val) and self.isValid(root.right, root.val, upper)
 
 class Solution:
-    def isValidBST(self, root):
-        stack, prev, curr = [], None, root
+    def isValidBST(self, root: TreeNode) -> bool:
+        stack, curr, prev = [], root, None
         while stack or curr:
             while curr:
                 stack.append(curr)
                 curr = curr.left
             top = stack.pop()
-            if prev and prev.val >= top.val:
-                return False
+            if prev and prev.val >= top.val: return False
             prev = top
             curr = top.right
         return True

@@ -20,3 +20,30 @@ class Solution:
                 return False
         visited[curr] = 1
         return True
+
+
+
+# BFS
+# from collections import defaultdict, deque
+#
+# class Solution:
+#     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+#         if numCourses == 0: return True
+#         inDegree, tree = [0] * numCourses, defaultdict(set)
+#         for p in prerequisites:
+#             inDegree[p[0]] += 1
+#             tree[p[1]].add(p[0])
+#
+#         queue = deque()
+#         for i in range(numCourses):
+#             if inDegree[i] == 0:
+#                 queue.append(i)
+#
+#         while queue:
+#             numCourses -= 1
+#             n = queue.popleft()
+#             for child in tree[n]:
+#                 inDegree[child] -= 1
+#                 if inDegree[child] == 0:
+#                     queue.append(child)
+#         return numCourses == 0

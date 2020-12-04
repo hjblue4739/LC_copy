@@ -1,16 +1,12 @@
 class Solution:
-    def productExceptSelf(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        product = 1
         result = []
-        product = 1
-        for i in nums:
+        for num in nums:
             result.append(product)
-            product *= i
+            product *= num
         product = 1
-        for j in range(len(nums)-1, -1, -1):
-            result[j] *= product
-            product *= nums[j]
+        for i in range(len(nums)-1, -1, -1):
+            result[i] *= product
+            product *= nums[i]
         return result

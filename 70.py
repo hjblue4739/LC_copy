@@ -1,12 +1,9 @@
 class Solution:
-    def climbStairs(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        if n <= 2: return n
-        ret = [0]*n
-        ret[0], ret[1] = 1, 2
+    def climbStairs(self, n: int) -> int:
+        if n <= 1: return n
+        s1 = 1
+        s2 = 2
         for i in range(2, n):
-            ret[i] = ret[i-1] + ret[i-2]
-        return ret[-1]
+            s = s1 + s2
+            s1, s2 = s2, s
+        return s2

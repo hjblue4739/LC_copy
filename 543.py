@@ -1,24 +1,19 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-# Time: O(n)
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def diameterOfBinaryTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        def depth(node):
-            if not node:
-                return 0
-            left, right = depth(node.left), depth(node.right)
-            self.result = max(self.result, left+right)
-            return 1 + max(left, right)
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
         self.result = 0
-        depth(root)
+
+        def getDiameter(node):
+            if not node: return 0
+            left = getDiameter(node.left)
+            right = getDiameter(node.right)
+            self.result = max(self.result, left + right)
+            return 1 + max(left, right)
+
+        getDiameter(root)
         return self.result

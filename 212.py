@@ -1,48 +1,41 @@
 class TrieNode:
     def __init__(self):
         self.children = {}
-        self.word = None
+        self.is_word = False
 
 
 class Trie:
     def __init__(self):
-        self.root = TrieNode()
+        self.node = TrieNode()
 
-    def insert(self, word):
-        node = self.root
+    def add(self, word):
+        node = self.node
         for c in word:
-            if c not in node.children:
-                node.children[c] = TrieNode()
-            node = node.children[c]
-        node.word = word
+            node = node.children.setdefault(c, TrieNode())
+        node.is_word = True
 
 
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        result = []
         trie = Trie()
         for word in words:
-            trie.insert(word)
+            trie.add(word)
+        result = []
         for i in range(len(board)):
             for j in range(len(board[0])):
-                self.search(board, i, j, trie.root, result)
+                self.dfs(board, result, trie.node, i, j, '')
         return result
 
-    def search(self, board, x, y, node, result):
-        dx = [-1, 1, 0, 0]
-        dy = [0, 0, -1, 1]
-        if board[x][y] not in node.children: return
-        child = node.children[board[x][y]]
-        if child.word:
-            if child.word not in result:
-                result.append(child.word)
-        tmp = board[x][y]
-        board[x][y] = 0
-        for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
-            if self.isValid(board, nx, ny):
-                self.search(board, nx, ny, child, result)
-        board[x][y] = tmp
-
-    def isValid(self, board, x, y):
-        return 0 <= x < len(board) and 0 <= y < len(board[0]) and board[x][y] != 0
+    def dfs(self, board, result, trie, x, y, word):
+        if not trie: return
+        if trie.is_word:
+            result.append(word)
+            trie.is_word = False
+        if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]):
+            return
+        curr = board[x][y]
+        if curr in trie.children:
+            board[x][y] = '#'
+            for direction in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                self.dfs(board, result, trie.children[curr], x + direction[0], y + direction[1], word + curr)
+            board[x][y] = curr

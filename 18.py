@@ -1,31 +1,26 @@
 class Solution:
-    def fourSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
-        ret = []
+        result = []
         for i in range(len(nums)-3):
-            if i > 0 and nums[i] == nums[i-1]:
+            if i > 0 and nums[i-1] == nums[i]:
                 continue
             for j in range(i+1, len(nums)-2):
-                if j > i+1 and nums[j] == nums[j-1]:
+                if j > i + 1 and nums[j-1] == nums[j]:
                     continue
-                left, right = j+1, len(nums)-1
-                while left < right:
-                    ss = nums[i] + nums[j] + nums[left] + nums[right]
-                    if ss == target:
-                        ret.append([nums[i], nums[j], nums[left], nums[right]])
-                        while left < right and nums[left] == nums[left+1]:
-                            left += 1
-                        while left < right and nums[right] == nums[right-1]:
-                            right -= 1
-                        left += 1
-                        right -= 1
-                    elif ss < target:
-                        left += 1
+                l, r = j+1, len(nums)-1
+                while l < r:
+                    s = nums[i] + nums[j] + nums[l] + nums[r]
+                    if s == target:
+                        result.append([nums[i], nums[j], nums[l], nums[r]])
+                        while l < r and nums[l] == nums[l+1]:
+                            l += 1
+                        while l < r and nums[r] == nums[r-1]:
+                            r -= 1
+                        l += 1
+                        r -= 1
+                    elif s > target:
+                        r -= 1
                     else:
-                        right -= 1
-        return ret
+                        l += 1
+        return result

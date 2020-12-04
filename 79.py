@@ -1,26 +1,19 @@
 # time O(m*n*len(word))
-class Solution(object):
-    def exist(self, board, word):
-        """
-        :type board: List[List[str]]
-        :type word: str
-        :rtype: bool
-        """
-        if not board or not board[0]: return False
-        m, n = len(board), len(board[0])
-        for i in range(m):
-            for j in range(n):
-                if self.dfs(board, word, i, j):
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if self.dfs(board, i, j, set(), word, 0):
                     return True
         return False
 
-    def dfs(self, board, word, x, y):
-        if not word: return True
-        if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]) or board[x][y] != word[0]:
-            return False
-        tmp = board[x][y]
-        board[x][y] = '#'
-        neighbor = self.dfs(board, word[1:], x + 1, y) or self.dfs(board, word[1:], x - 1, y) \
-                   or self.dfs(board, word[1:], x, y + 1) or self.dfs(board, word[1:], x, y - 1)
-        board[x][y] = tmp
-        return neighbor
+    def dfs(self, board, x, y, visited, word, idx):
+        if idx == len(word):
+            return True
+
+        if 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) not in visited and board[x][y] == word[idx]:
+            for direction in [(0, -1), (0, 1), (1, 0), (-1, 0)]:
+                new_x, new_y = x + direction[0], y + direction[1]
+                if self.dfs(board, new_x, new_y, visited | {(x, y)}, word, idx + 1):
+                    return True
+        return False

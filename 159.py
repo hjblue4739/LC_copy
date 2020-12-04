@@ -1,24 +1,23 @@
 # Time: O(n)
 # Space: O(1)
-class Solution(object):
-    def lengthOfLongestSubstringTwoDistinct(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        start, end, counter, ret = 0, 0, 0, 0
-        counts = {}
+class Solution:
+    def lengthOfLongestSubstringTwoDistinct(self, s: str) -> int:
+        d = {}
+        count = 0
+        start, end = 0, 0
+        result = 0
         while end < len(s):
             c = s[end]
-            counts[c] = counts.get(c, 0) + 1
-            if counts[c] == 1:
-                 counter += 1
+            d[c] = d.get(c, 0) + 1
+            if d[c] == 1:
+                count += 1
             end += 1
-            while counter > 2:
-                c2 = s[start]
-                counts[c2] -= 1
-                if counts[c2] == 0:
-                    counter -= 1
+            while count > 2 and start < len(s):
+                curr = s[start]
+                if curr in d:
+                    d[curr] -= 1
+                    if d[curr] == 0:
+                        count -= 1
                 start += 1
-            ret = max(ret, end-start)
-        return ret
+            result = max(result, end-start)
+        return result

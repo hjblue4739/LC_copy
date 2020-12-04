@@ -2,23 +2,17 @@
 Time: O(mn)
 Space: O(m or n)
 '''
-
 class Solution:
-    def minDistance(self, word1, word2):
-        """
-        :type word1: str
-        :type word2: str
-        :rtype: int
-        """
-        m, n = len(word1), len(word2)
-        curr = [0]*(m+1)
-        prev = [0]*(m+1)
-        for i in range(1, m+1):
-            prev[i] = prev[i-1] + 1
-        for j in range(1, n+1):
-            curr[0] = j
-            for i in range(1, m+1):
-                temp = prev[i-1] if word1[i-1] == word2[j-1] else prev[i-1]+1
-                curr[i] = min(curr[i-1]+1, prev[i]+1, temp)
-            prev, curr = curr, prev
-        return prev[m]
+    def minDistance(self, word1: str, word2: str) -> int:
+        prev = [0]
+        m, n = len(word2), len(word1)
+        for i in range(n):
+            prev.append(prev[i] + 1)
+
+        for i in range(m):
+            curr = [i + 1]
+            for j in range(n):
+                tmp = prev[j] if word1[j] == word2[i] else prev[j] + 1
+                curr.append(min(curr[j] + 1, prev[j + 1] + 1, tmp))
+            prev = curr
+        return prev[n]

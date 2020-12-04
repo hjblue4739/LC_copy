@@ -1,13 +1,17 @@
+# Time Complexity: O(N^target)
+# Space Complexity:
+
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         result = []
         candidates.sort()
-        self.dfs(candidates, target, result, [])
+        self.search(candidates, target, [], result)
         return result
 
-    def dfs(self, candidates, target, result, path):
-        if target < 0: return
-        if target == 0: result.append(path)
+    def search(self, candidates, target, path, result):
+        if target == 0:
+            result.append(list(path))
+            return
         for i in range(len(candidates)):
-            if candidates[i] > target: break
-            self.dfs(candidates[i:], target - candidates[i], result, path + [candidates[i]])
+            if target - candidates[i] < 0: break
+            self.search(candidates[i:], target - candidates[i], path + [candidates[i]], result)

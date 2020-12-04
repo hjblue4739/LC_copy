@@ -1,36 +1,30 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def __init__(self):
+    def longestConsecutive(self, root: TreeNode) -> int:
+        def getLength(node):
+            if not node: return [0, 0]
+            increase, decrease = 1, 1
+            ll = getLength(node.left)
+            rr = getLength(node.right)
+            if node.left:
+                if node.val + 1 == node.left.val:
+                    increase += ll[0]
+                if node.val - 1 == node.left.val:
+                    decrease += ll[1]
+            if node.right:
+                if node.val + 1 == node.right.val:
+                    increase = max(increase, rr[0] + 1)
+                if node.val - 1 == node.right.val:
+                    decrease = max(decrease, rr[1] + 1)
+            self.result = max(self.result, increase + decrease - 1)
+            return [increase, decrease]
+
         self.result = 0
+        getLength(root)
 
-    def longestConsecutive(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        self.helper(root)
         return self.result
-
-    def helper(self, node):
-        if not node: return [0, 0]
-        increase, decrease = 1, 1
-        if node.left:
-            l = self.helper(node.left)
-            if node.left.val == node.val + 1:
-                increase = l[0] + 1
-            elif node.left.val == node.val - 1:
-                decrease = l[1] + 1
-        if node.right:
-            r = self.helper(node.right)
-            if node.right.val == node.val + 1:
-                increase = max(increase, r[0] + 1)
-            if node.right.val == node.val - 1:
-                decrease = max(decrease, r[1] + 1)
-        self.result = max(self.result, increase + decrease - 1)
-        return [increase, decrease]

@@ -6,24 +6,21 @@ Space: O(m)
 """
 
 
-class Solution(object):
-    def isMatch(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: bool
-        """
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        m, n = len(s), len(p)
+        if n >= 1 and p[0] == '*': return False
         prev = [True]
-        for j in range(len(p)):
-            prev.append(p[j] == '*' and prev[j - 1])
+        for j in range(n):
+            prev.append(prev[j - 1] and p[j] == '*')
 
-        for i in range(len(s)):
+        for i in range(m):
             curr = [False]
-            for j in range(len(p)):
+            for j in range(n):
                 if p[j] == '*':
                     curr.append(curr[j - 1] or (prev[j + 1] and p[j - 1] in (s[i], '.')))
                 else:
-                    curr.append(prev[j] and p[j] in (s[i], '.'))
+                    curr.append(prev[j] and p[j] in {s[i], '.'})
             prev = curr
         return prev[-1]
 

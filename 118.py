@@ -1,12 +1,11 @@
-from operator import add
 class Solution:
-    def generate(self, numRows):
-        """
-        :type numRows: int
-        :rtype: List[List[int]]
-        """
-        res = [[1]]
+    def generate(self, numRows: int) -> List[List[int]]:
+        if numRows == 0: return []
+        if numRows == 1: return [[1]]
+        s0 = [1]
+        result = [s0]
         for i in range(1, numRows):
-            ll = map(add, res[-1]+[0], [0]+res[-1])
-            res.append(list(ll))
-        return res if numRows else []
+            s = [x + y for x, y in zip([0] + s0, s0 + [0])]
+            result.append(s)
+            s0 = s
+        return result
