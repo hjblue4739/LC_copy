@@ -54,4 +54,26 @@ class solution:
                     visited.add((x,y))
                     shapes.add(dfs(x,y,(0,0),[])) ##shapes.add(dfs(x,y,(0,0),[(0,0)]))
         return len(shapes)
+       
+class solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        row, col = len(grid), len(grid[0])
+        shapes = set()
+        visited = set()
+        def dfs(x, y, pos, island): ##x, y: current actual position, pos: relative position; island 
+            grid[x][y] = 0
+            for dx, dy in [(-1,0),(0,1),(1,0),(0,-1)]:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < row and 0 <= ny < col and grid[nx][ny]:
+                    tmp = (pos[0] + dx, pos[1] + dy) ### NOTE: it is wrong: pos = (pos[]0) + dx, pos[1] + dy)
+                    grid[nx][ny] = 0
+                    island.append(tmp)
+                    dfs(nx, ny, tmp, island)
+            return tuple(island)
+        
+        for x in range(row):
+            for y in range(col):
+                if grid[x][y]:
+                    shapes.add(dfs(x,y,(0,0),[])) ##shapes.add(dfs(x,y,(0,0),[(0,0)]))
+        return len(shapes)
     
