@@ -1,5 +1,5 @@
 [LeetCode] 737. Sentence Similarity II 句子相似度之二
- 
+https://www.cnblogs.com/grandyang/p/8053934.html
 
 Given two sentences words1, words2 (each represented as an array of strings), 
 and a list of similar word pairs pairs, determine if two sentences are similar.
