@@ -1,0 +1,33 @@
+
+
+
+'''
+Given a non-empty string word and an abbreviation abbr,
+return whether the string matches with the given abbreviat
+Example:
+
+Input : s = "internationalization", abbr = "i12iz4n"
+Output : true
+'''
+
+def check(s, abbr): 
+    i = j = 0 
+    while i < len(abbr): 
+        v = abbr[i]
+        if v.isalpha(): 
+            if j < len(s) and s[j] == v: 
+                j += 1 
+                i += 1 
+            else: return False 
+        else: 
+            k = i + 1 
+            while k < len(abbr) and abbr[k].isdigit():
+                k += 1 
+            j += int(abbr[i:k])
+            i = k 
+    #print(j, len(s))
+    return True #j == len(s)
+    
+    
+print(check(s = "internationalization", abbr = "i11liz4n"))
+        
