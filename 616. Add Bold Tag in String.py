@@ -52,8 +52,8 @@ class text:
         for i in range(N): 
             for word in dict: 
                 if s[i:].startswith(word): 
-                    lines[i] = 1 
-                    lines[i+len(word)+1] = -1 
+                    lines[i] += 1 
+                    lines[i+len(word)] -= 1 
         result = [] 
         open = False
         for i in range(N): 
@@ -71,7 +71,40 @@ class text:
         return ''.join(result) + ('</b>' if open else '') 
     
              
-                
+class text: 
+    def addBoldTag(self, s, dict):  # s is the input string
+        N = len(s)
+        lines = [0] * (N  + 2) 
+        for i in range(N): 
+            for word in dict: 
+                if s[i:].startswith(word): 
+                    print(i, word, lines)
+                    lines[i] += 1 
+                    lines[i+len(word)-1] -= 1 
+                    print(lines)
+        result = [] 
+        open = False
+        #print(lines)
+        for i in range(N): 
+            lines[i] += lines[i-1]
+            if lines[i] > 0:             
+                if not open: 
+                    open = True 
+                    if result and result[-1] == "</b>": 
+                        result.pop()   
+                    else:
+                        result.append('<b>')
+                result.append(s[i])
+            else: 
+                result.append(s[i])
+                if open: 
+                    open = False
+                    result.append('</b>')
+        print(lines, result)
+        return ''.join(result) + ('</b>' if open else '') 
+t = text()
+#t.addBoldTag('avvaabbbcca', ['cca','aab','av', 'kaad'])
+print(t.addBoldTag('aavca', ['cac','aereab','avc', 'vvaa']))                
                     
                     
                     
