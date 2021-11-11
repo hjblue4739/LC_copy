@@ -1,3 +1,14 @@
+'''
+There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. 
+You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. 
+Derive the order of letters in this language.
+
+Example 1: ["wrt",  "wrf",  "er", "ett",  "rftt"] ->  "wertf"
+Example 2: ["z","x"] -> "zx"
+Example 3: ["z","x","z"] -> ""
+'''
+
+##topological sort 
 from collections import deque
 
 class Solution:
@@ -8,7 +19,7 @@ class Solution:
             for c in word:
                 counter[c] = 0
                 children[c] = set()
-        for w1, w2 in zip(words, words[1:]):
+        for w1, w2 in zip(words, words[1:]): #SMART: only compare two adjecent two words 
             if len(w1) > len(w2) and w1[:len(w2)] == w2:
                 return ''
             for i in range(min(len(w1), len(w2))):
