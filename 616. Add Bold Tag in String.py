@@ -45,31 +45,36 @@ All the strings in input have length in range [1, 1000].
 #lines = [0,0,0,0,0,0,0,0] -> [1,0,0,-1,0,0,0] -> [1,1,0,-1,-1,0,0] -> [1,1,0,-1,1,0,-1]
 # cum lines  = [1,2,2,1,2,2,1]
 #
-class text: 
-    def addBoldTag(self, s, dict):  # s is the input string
-        N = len(s)
-        lines = [0] * (N  + 1) 
-        for i in range(N): 
-            for word in dict: 
-                if s[i:].startswith(word): 
-                    lines[i] += 1 
-                    lines[i+len(word)] -= 1 
-        result = [] 
-        open = False
-        for i in range(N): 
-            lines[i] += lines[i-1]
-            if lines[i] > 0:             
-                if not open: 
-                   open = True 
-                   result.append('<b>')
-                result.append(s[i])
-            else: 
-                result.append(s[i])
-                if open: 
-                    open = False
-                    result.append('</b>')
-        return ''.join(result) + ('</b>' if open else '') 
-    
+class text:
+    def addBoldTag(self, s, dict) -> str:
+        dict.sort(key = len, reverse = 1)
+        is_bold = [0] * (len(s) + 1) 
+        end = 0
+        for i in range(len(s)):
+            for word in dict:
+                if s.startswith(word, i):
+                    end = max(end, i + len(word))
+                    break
+            is_bold[i] = end > i
+
+        ret = []
+        i = 0
+        while i < len(s):
+            if not is_bold[i]:
+                ret.append(s[i])
+                i += 1
+            else:
+                j = i
+                while is_bold[i]:
+                    i += 1
+                ret.append("<b>" + s[j:i] + "</b>")
+        return "".join(ret)
+       
+'''       
+t = text()
+#t.addBoldTag('avvaabbbcca', ['cca','aab','av', 'kaad'])
+print(t.addBoldTag('aaavdarefavafdddvvvvaaaacacerevca', ['cac','aereab','avc', 'vvaa']))
+'''    
              
 class text: 
     def addBoldTag(self, s, dict):  # s is the input string
@@ -107,8 +112,4 @@ t = text()
 print(t.addBoldTag('aavca', ['cac','aereab','avc', 'vvaa']))                
                     
                     
-                    
-                
-                
-        
-        
+           
