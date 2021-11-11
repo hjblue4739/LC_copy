@@ -10,6 +10,5 @@ class Solution:
         while root:
             if abs(prev-target) > abs(root.val-target):
                 prev = root.val
-            if target < root.val: root = root.left
-            else: root = root.right
+            root = root.left if target < root.val else root.right
         return prev
