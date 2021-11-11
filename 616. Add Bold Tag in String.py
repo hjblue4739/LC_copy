@@ -22,6 +22,60 @@ Output:
 
 Note:
 
-    The given dict won't contain duplicates, and its length won't exceed 100.
-    All the strings in input have length in range [1, 1000].
+The given dict won't contain duplicates, and its length won't exceed 100.
+All the strings in input have length in range [1, 1000].
  '''
+
+#requirement:
+#input string s
+# n_string_size = len(s) <= 1000 -> N 
+# n_dict_size = len(dict) <= 100 -> M
+#solution 1: line scan
+# sort dict by length 
+# initilize an array to store the lines, say lines 
+# iterate the input string from index 0 to n_string_size
+# for index i, check if s[i:] startwith with word in dict
+# if word j meet above if condition, create two lines at i (for open "<b>"), and i + len(word j)  for (close <b/>)
+# after the for loop, calculate the cum sum of array lines 
+# generate the results 
+
+#complexity:  time  O( N * M), space O(N)
+#s = "aaabbcc"
+#dict = ["aaa","aab","bc"]
+#lines = [0,0,0,0,0,0,0,0] -> [1,0,0,-1,0,0,0] -> [1,1,0,-1,-1,0,0] -> [1,1,0,-1,1,0,-1]
+# cum lines  = [1,2,2,1,2,2,1]
+#
+class text: 
+    def addBoldTag(self, s, dict):  # s is the input string
+        N = len(s)
+        lines = [0] * (N  + 1) 
+        for i in range(N): 
+            for word in dict: 
+                if s[i:].startswith(word): 
+                    lines[i] = 1 
+                    lines[i+len(word)+1] = -1 
+        result = [] 
+        open = False
+        for i in range(N): 
+            lines[i] += lines[i-1]
+            if lines[i] > 0:             
+                if not open: 
+                   open = True 
+                   result.append('<b>')
+                result.append(s[i])
+            else: 
+                result.append(s[i])
+                if open: 
+                    open = False
+                    result.append('</b>')
+        return ''.join(result) + ('</b>' if open else '') 
+    
+             
+                
+                    
+                    
+                    
+                
+                
+        
+        
