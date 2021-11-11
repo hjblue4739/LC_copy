@@ -5,7 +5,7 @@
 #         self.left = left
 #         self.right = right
 
-###similar to 270 and 685 
+###similar to 270 and 658 658. Find K Closest Elements
 
 class tree: 
     def findKClosest(self, root, target, k): 
