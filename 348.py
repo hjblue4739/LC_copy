@@ -1,3 +1,4 @@
+https://www.cnblogs.com/grandyang/p/5467118.html
 class TicTacToe:
     def __init__(self, n: int):
         """
