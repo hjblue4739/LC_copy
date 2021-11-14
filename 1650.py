@@ -13,6 +13,8 @@ class Solution:
             l, r = dfs(x.left), dfs(x.right)
             return x if (l and r) else l or r
         return dfs(root)
+      
+      
     #solution 1 
     # #1) find p first  
     # 2) traverse up (towards ancestors) and use hash set to store the parent node of p
