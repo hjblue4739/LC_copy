@@ -1,0 +1,60 @@
+class tree: 
+  def largestBSTSubtree(self, root): 
+    
+    self.res = 0 
+    def isValid(x): 
+      if not x or self.valid == False: return
+      l, r = x.left, x.right 
+      if x.val > self.pre: 
+        self.pre = x.val
+        self.count += 1 
+       else: 
+        self.valid = False
+        return  
+      isValid(l)
+      isValid(r)
+      
+    def dfs(node):
+      self.pre = -float('Inf')
+      self.valid = True  
+      self.count = 0
+      if isValid(node): 
+          self.res = max(self.res, self.count)
+      dfs(node.left)
+      dfs(node.right)
+     dfs(root)
+     return self.res   
+
+
+
+class tree: 
+  def largestBSTSubtree(self, root):
+    self.res = 0 
+    def dfs(node):
+      if not node: return True, 0, M, -M  ## is BST ? ,  count of nodes  # left child is BST? , right child is BST?
+      l = dfs(node.left)
+      r = dfs(node.right)
+      #isValid(node)
+      if l[0] and r[0] and node.val > l[3] and node.val < r[2]: 
+        self.res = max(self.res, l[1] + r[1] + 1) 
+        return True, l[1] + r[1] + 1, min(node.val, l[2]), max(nodel.val, r[3]) 
+    dfs(root)
+    return self.res 
+    
+    
+    
+    def largestBSTSubtree(self, root):
+        self.res = 0 
+        M = float('Inf')
+        def dfs(node):
+            if not node: return True, 0, M, -M  ## is BST ? ,  count of nodes  # left child is BST? , right child is BST?
+            l = dfs(node.left)
+            r = dfs(node.right)
+            if l[0] and r[0] and l[3] < node.val < r[2]: 
+                #print(l, r, node.val)
+                self.res = max(self.res, l[1] + r[1] + 1) 
+                return True, l[1] + r[1] + 1, min(node.val, l[2]), max(node.val, r[3]) 
+            return False, 0, -M, M 
+        t = dfs(root)
+        return self.res   # (self.res, t[0])
+         
