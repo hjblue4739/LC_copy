@@ -1,3 +1,11 @@
+'''
+Question
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), 
+find the minimum number of conference rooms required.
+
+For example, Given [[0, 30],[5, 10],[15, 20]], return 2.
+'''
+
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         if not intervals: return 0
@@ -104,3 +112,49 @@ class meetings:
                 cur = max(c[max(0,s-mn):min(len(d), e-mn)])
                 res.append(cur + 1 <= rooms)
         return res
+    
+    
+    
+    
+ '''
+Question
+Given an array of meeting time intervals consisting of start and end times 
+[[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+For example, Given [[0, 30],[5, 10],[15, 20]], return 2.
+'''
+
+
+
+'''
+# input
+#sorted? No 
+#examples
+
+# 1: meetings = [[0, 30],[5, 10],[15, 20]] -> 2 
+# 2: meetings = [[0,1],[0,7],[2,5],[3,8],[0,12]] -> [[0,1],[0,7],[0,12],[2,5],[3,8]]
+import heapq 
+class meeting: 
+    def getMinN(self, meetings):
+        meetings.sort() 
+        n = len(meetings)
+        if n < 2: return n 
+        h = [0]
+        res = 0 
+        for start, end in meetings: 
+            if not h: 
+                h = [end]
+            else: 
+                if h[0] <= start: 
+                    heapq.heappushpop(h, end)
+                else: 
+                    heapq.heappush(h, end)
+            res = max(len(h), res)
+            print(h)
+        return res 
+        
+t = meeting()
+print(t.getMinN([[0,1],[1,3],[2,9],[3,10],[12,15],[9,13],[0,7],[2,5],[3,8],[0,12]]))
+'''        
+
+
+
