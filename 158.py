@@ -2,7 +2,6 @@
 # def read4(buf4: List[str]) -> int:
 from collections import deque
 
-
 class Solution:
     def __init__(self):
         self.q = deque()
@@ -17,5 +16,5 @@ class Solution:
                 buf4 = [' '] * 4
                 count = read4(buf4)
                 if not count: break
-                self.q += buf4[:count]
+                self.q.append(buf4[:count])
         return i
