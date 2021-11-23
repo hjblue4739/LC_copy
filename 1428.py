@@ -20,3 +20,18 @@ class Solution:
                     left = mid + 1
             result = left
         return result if result != n else -1
+
+    
+#time: O(M+N) 
+#space: O(1)
+ class Solution:
+    def leftMostColumnWithOne(self, M: 'BinaryMatrix') -> int:
+        m, n = M.dimensions()
+        x, y = 0, n - 1  #initial point at the top right corner of the matrix 
+        while x < m and -1 < y:
+            if M.get(x, y) == 1: 
+                    y -= 1  
+            x += 1
+        return y + 1 if y < n - 1 else -1 
+        
+    
